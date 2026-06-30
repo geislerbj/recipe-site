@@ -1,2 +1,2 @@
 const SUPABASE_URL  = 'https://fgpbxrkaedktiffwteub.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_XaIHhmEmbW0Xk9hzixMg1g_zapsLpm4';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZncGJ4cmthZWRrdGlmZnd0ZXViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NzAwNzksImV4cCI6MjA5NDQ0NjA3OX0.UmR3AUvCVSD6bb6HzZtDhS6o-tlASb2LFibXvY1A6bY';
