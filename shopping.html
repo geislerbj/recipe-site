@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping List — Family Recipes</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">🍴 Family Recipes</a>
+  <a href="/">Recipes</a>
+  <a href="/meal-plan.html">Meal Plan</a>
+  <a href="/shopping.html" class="active">Shopping List</a>
+</nav>
+
+<main>
+  <h1>Shopping List</h1>
+
+  <div class="date-range-bar">
+    <label>From</label>
+    <input type="date" id="start-date" />
+    <label>To</label>
+    <input type="date" id="end-date" />
+    <button class="btn" id="load-btn">Generate List</button>
+    <button class="btn btn-ghost btn-sm" id="copy-btn">Copy to Clipboard</button>
+    <button class="btn btn-ghost btn-sm" id="uncheck-btn">Uncheck All</button>
+  </div>
+
+  <div id="meal-summary" style="margin-bottom:1.5rem; color:var(--text-muted); font-size:0.85rem;"></div>
+  <div id="shopping-output"><div class="empty">Select a date range and click Generate List.</div></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="shopping.js"></script>
+</body>
+</html>

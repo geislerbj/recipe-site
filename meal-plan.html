@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meal Plan — Family Recipes</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">🍴 Family Recipes</a>
+  <a href="/">Recipes</a>
+  <a href="/meal-plan.html" class="active">Meal Plan</a>
+  <a href="/shopping.html">Shopping List</a>
+</nav>
+
+<main>
+  <h1>Meal Plan</h1>
+
+  <div class="date-range-bar">
+    <label>From</label>
+    <input type="date" id="start-date" />
+    <label>To</label>
+    <input type="date" id="end-date" />
+    <button class="btn" id="load-btn">Load</button>
+    <button class="btn btn-accent" id="random-btn" title="Randomly fill empty days">⚄ Random Fill</button>
+    <button class="btn btn-ghost btn-sm" id="clear-btn">Clear All</button>
+    <button class="btn btn-sm" id="save-btn">Save Plan</button>
+  </div>
+
+  <div class="calendar-grid" id="calendar-grid">
+    <div class="empty">Select a date range and click Load.</div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="meal-plan.js"></script>
+</body>
+</html>

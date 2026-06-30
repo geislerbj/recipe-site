@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Recipes</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">🍴 Family Recipes</a>
+  <a href="/" class="active">Recipes</a>
+  <a href="/meal-plan.html">Meal Plan</a>
+  <a href="/shopping.html">Shopping List</a>
+</nav>
+
+<main>
+  <h1>Recipe Library</h1>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Search recipes…" />
+    <select id="tag-filter">
+      <option value="">All tags</option>
+    </select>
+    <button class="btn" id="add-btn">+ Add Recipe</button>
+  </div>
+
+  <div class="recipe-grid" id="recipe-grid">
+    <div class="empty" id="empty-state">No recipes yet — add one!</div>
+  </div>
+</main>
+
+<!-- Recipe Modal -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Add Recipe</h2>
+      <button class="modal-close" id="modal-close">&times;</button>
+    </div>
+
+    <form id="recipe-form">
+      <input type="hidden" id="recipe-id" />
+
+      <div class="form-group">
+        <label>Recipe Name</label>
+        <input type="text" id="name" required placeholder="e.g. Mom's Lasagna" />
+      </div>
+
+      <div class="form-group">
+        <label>Description (optional)</label>
+        <textarea id="description" placeholder="Brief description…"></textarea>
+      </div>
+
+      <div style="display:flex; gap:1rem;">
+        <div class="form-group" style="flex:1">
+          <label>Servings</label>
+          <input type="number" id="servings" min="1" value="4" />
+        </div>
+        <div class="form-group" style="flex:2">
+          <label>Tags (comma-separated)</label>
+          <input type="text" id="tags" placeholder="quick, family fave, vegetarian…" />
+        </div>
+      </div>
+
+      <h2>Ingredients</h2>
+      <div id="ingredients-list"></div>
+      <button type="button" class="btn btn-ghost btn-sm mt-sm" id="add-ingredient">+ Ingredient</button>
+
+      <h2 style="margin-top:1.2rem;">Steps</h2>
+      <div id="steps-list"></div>
+      <button type="button" class="btn btn-ghost btn-sm mt-sm" id="add-step">+ Step</button>
+
+      <div class="flex gap mt" style="justify-content:flex-end; flex-wrap:wrap;">
+        <button type="button" class="btn btn-accent btn-sm" id="delete-btn" style="display:none;">Delete</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn-sm">Save Recipe</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="recipes.js"></script>
+</body>
+</html>
