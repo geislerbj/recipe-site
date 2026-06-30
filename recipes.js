@@ -1,4 +1,4 @@
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 let allRecipes = [];
 

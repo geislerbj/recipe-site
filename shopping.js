@@ -1,4 +1,4 @@
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 async function init() {
   const today = localDateStr(new Date());
