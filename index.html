@@ -32,7 +32,33 @@
   </div>
 </main>
 
-<!-- Recipe Modal -->
+<!-- Cooking View Modal -->
+<div class="modal-backdrop" id="cook-modal">
+  <div class="modal" style="max-width:720px;">
+    <div class="modal-header">
+      <h2 id="cook-name"></h2>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <button class="btn btn-ghost btn-sm" id="cook-edit-btn">Edit</button>
+        <button class="modal-close" id="cook-close">&times;</button>
+      </div>
+    </div>
+    <div id="cook-meta" style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;"></div>
+    <div id="cook-tags" style="margin-bottom:1.2rem;"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;" id="cook-body">
+      <div>
+        <h2>Ingredients</h2>
+        <div id="cook-ingredients"></div>
+      </div>
+      <div>
+        <h2>Steps</h2>
+        <ol id="cook-steps" style="padding-left:1.2rem;"></ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
 <div class="modal-backdrop" id="modal">
   <div class="modal">
     <div class="modal-header">

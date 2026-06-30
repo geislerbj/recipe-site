@@ -40,7 +40,7 @@ function renderGrid(recipes) {
   `).join('');
 
   grid.querySelectorAll('.recipe-card').forEach(card => {
-    card.addEventListener('click', () => openEdit(card.dataset.id));
+    card.addEventListener('click', () => openCookView(card.dataset.id));
   });
 }
 
@@ -63,7 +63,66 @@ function filterRecipes() {
   renderGrid(filtered);
 }
 
-// ── MODAL ────────────────────────────────────────────────────────────────────
+// ── COOKING VIEW ─────────────────────────────────────────────────────────────
+
+function openCookView(id) {
+  const r = allRecipes.find(x => x.id === id);
+  if (!r) return;
+
+  document.getElementById('cook-name').textContent = r.name;
+  document.getElementById('cook-meta').textContent = [
+    r.servings ? `${r.servings} servings` : '',
+    r.description || ''
+  ].filter(Boolean).join(' · ');
+
+  document.getElementById('cook-tags').innerHTML =
+    (r.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join('');
+
+  // Ingredients grouped by category
+  const byCategory = {};
+  (r.ingredients || []).forEach(ing => {
+    const cat = ing.category || 'Other';
+    if (!byCategory[cat]) byCategory[cat] = [];
+    byCategory[cat].push(ing);
+  });
+
+  const ingEl = document.getElementById('cook-ingredients');
+  ingEl.innerHTML = Object.entries(byCategory).map(([cat, items]) => `
+    <div style="margin-bottom:0.8rem;">
+      <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--neon-secondary);margin-bottom:0.3rem;">${esc(cat)}</div>
+      ${items.map(i => `
+        <div class="cook-ing-item">
+          <span class="cook-ing-qty">${esc([i.amount, i.unit].filter(Boolean).join(' '))}</span>
+          <span>${esc(i.name)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  // Steps — tap to cross off
+  const stepsEl = document.getElementById('cook-steps');
+  stepsEl.innerHTML = (r.steps || []).map((s, i) =>
+    `<li data-idx="${i}">${esc(s)}</li>`
+  ).join('');
+
+  stepsEl.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => li.classList.toggle('done'));
+  });
+
+  // Wire edit button
+  document.getElementById('cook-edit-btn').onclick = () => {
+    closeCookModal();
+    openEdit(id);
+  };
+
+  document.getElementById('cook-modal').classList.add('open');
+}
+
+function closeCookModal() {
+  document.getElementById('cook-modal').classList.remove('open');
+}
+
+// ── EDIT MODAL ────────────────────────────────────────────────────────────────
 
 function openAdd() {
   document.getElementById('modal-title').textContent = 'Add Recipe';
@@ -208,6 +267,8 @@ function bindUI() {
   document.getElementById('modal-close').addEventListener('click', closeModal);
   document.getElementById('cancel-btn').addEventListener('click', closeModal);
   document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  document.getElementById('cook-close').addEventListener('click', closeCookModal);
+  document.getElementById('cook-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeCookModal(); });
   document.getElementById('recipe-form').addEventListener('submit', saveRecipe);
   document.getElementById('delete-btn').addEventListener('click', deleteRecipe);
   document.getElementById('add-ingredient').addEventListener('click', () => addIngredientRow());

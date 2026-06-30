@@ -428,6 +428,43 @@ textarea { resize: vertical; min-height: 80px; }
 .mt-sm { margin-top: 0.5rem; }
 .hidden { display: none !important; }
 
+/* COOKING VIEW */
+#cook-ingredients .cook-ing-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--surface2);
+  font-size: 0.95rem;
+}
+
+#cook-ingredients .cook-ing-qty {
+  font-weight: 600;
+  color: var(--neon-primary);
+  white-space: nowrap;
+  min-width: 70px;
+  font-size: 0.9rem;
+}
+
+#cook-steps li {
+  padding: 0.6rem 0 0.6rem 0.4rem;
+  border-bottom: 1px solid var(--surface2);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+#cook-steps li.done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+#cook-steps li:last-child { border-bottom: none; }
+
+@media (max-width: 600px) {
+  #cook-body { grid-template-columns: 1fr !important; }
+}
+
 /* MOBILE */
 @media (max-width: 600px) {
   main { padding: 1rem; }
