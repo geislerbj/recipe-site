@@ -13,7 +13,7 @@ async function init() {
   document.getElementById('start-date').value = today;
   document.getElementById('end-date').value = next6;
 
-  const { data } = await sb.from('recipes').select('id, name').order('name');
+  const { data } = await sb.from('recipes').select('id, name, tags').order('name');
   allRecipes = data || [];
 
   bindUI();
@@ -99,12 +99,14 @@ function renderCalendar() {
 // ── RANDOM FILL ───────────────────────────────────────────────────────────────
 
 function randomFill() {
-  if (!allRecipes.length) { alert('Add some recipes first!'); return; }
+  const mealRecipes = allRecipes.filter(r => (r.tags || []).includes('meal'));
+  const pool = mealRecipes.length ? mealRecipes : allRecipes;
+  if (!pool.length) { alert('Add some recipes first!'); return; }
 
   currentDays.forEach(date => {
     if (planMap[date]) return; // already assigned — don't overwrite
 
-    const pick = allRecipes[Math.floor(Math.random() * allRecipes.length)];
+    const pick = pool[Math.floor(Math.random() * pool.length)];
     planMap[date] = pick.id;
   });
 
