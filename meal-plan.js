@@ -58,12 +58,14 @@ async function loadPlan() {
   currentDays = datesInRange(start, end);
 
   const { data } = await sb.from('meal_plan')
-    .select('date, recipe_id')
+    .select('date, recipe_id, note')
     .gte('date', start)
     .lte('date', end);
 
   planMap = {};
-  (data || []).forEach(row => { planMap[row.date] = row.recipe_id; });
+  (data || []).forEach(row => {
+    planMap[row.date] = row.note || row.recipe_id || null;
+  });
 
   renderCalendar();
 }
@@ -79,6 +81,9 @@ function renderCalendar() {
         <div class="day-date">${friendlyDate(date).split(',').slice(1).join(',').trim()}</div>
         <select class="recipe-select" data-date="${date}">
           <option value="">— no meal —</option>
+          <option value="__takeout__" ${'__takeout__' === recipeId ? 'selected' : ''}>🥡 Takeout</option>
+          <option value="__leftovers__" ${'__leftovers__' === recipeId ? 'selected' : ''}>♻️ Leftovers</option>
+          <option disabled>──────────</option>
           ${allRecipes.map(r =>
             `<option value="${r.id}" ${r.id === recipeId ? 'selected' : ''}>${esc(r.name)}</option>`
           ).join('')}
@@ -118,10 +123,13 @@ function randomFill() {
 async function savePlan() {
   if (!currentDays.length) return;
 
+  const SENTINELS = ['__takeout__', '__leftovers__'];
   const rows = currentDays.map(date => ({
     date,
-    recipe_id: planMap[date] || null,
+    recipe_id: SENTINELS.includes(planMap[date]) ? null : (planMap[date] || null),
+    note: SENTINELS.includes(planMap[date]) ? planMap[date] : null,
   }));
+
 
   const { error } = await sb.from('meal_plan')
     .upsert(rows, { onConflict: 'date' });

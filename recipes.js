@@ -115,11 +115,51 @@ function openCookView(id) {
     openEdit(id);
   };
 
+  // Wire share button
+  document.getElementById('cook-share-btn').onclick = () => shareRecipe(r);
+
   document.getElementById('cook-modal').classList.add('open');
 }
 
 function closeCookModal() {
   document.getElementById('cook-modal').classList.remove('open');
+}
+
+function shareRecipe(r) {
+  const lines = [];
+  lines.push(`🍴 ${r.name}`);
+  if (r.description) lines.push(`\n${r.description}`);
+  if (r.servings) lines.push(`Serves: ${r.servings}`);
+
+  lines.push('\nINGREDIENTS');
+  const byCategory = {};
+  (r.ingredients || []).forEach(i => {
+    const cat = i.category || 'Other';
+    if (!byCategory[cat]) byCategory[cat] = [];
+    byCategory[cat].push(i);
+  });
+  Object.entries(byCategory).forEach(([cat, items]) => {
+    lines.push(`\n${cat}`);
+    items.forEach(i => {
+      const qty = [i.amount, i.unit].filter(Boolean).join(' ');
+      lines.push(`  • ${qty ? qty + ' ' : ''}${i.name}`);
+    });
+  });
+
+  lines.push('\nSTEPS');
+  (r.steps || []).forEach((s, i) => lines.push(`${i + 1}. ${s}`));
+
+  const text = lines.join('\n');
+
+  if (navigator.share) {
+    navigator.share({ title: r.name, text }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('cook-share-btn');
+      btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = 'Share'; }, 2000);
+    });
+  }
 }
 
 // ── EDIT MODAL ────────────────────────────────────────────────────────────────
